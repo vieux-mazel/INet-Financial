@@ -14,6 +14,7 @@ class CreateRemboursementsTable extends Migration
             $table->increments('id');
             $table->string('amount')->nullable();
             $table->string('description')->nullable();
+            // TODO non boolean status for Paymenet 
             $table->boolean('is_complete')->default(false);
             $table->boolean('is_confirmed')->default(false);
             $table->integer('remboursement_id')->unsigned();

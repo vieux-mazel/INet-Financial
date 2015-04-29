@@ -40,7 +40,7 @@ class Remboursement extends Model
     public $belongsTo = [
         'category' => ['VM\Financial\Models\Category', 'order' => 'name', 'foreignKey' => 'category_id'],
         'validation_process' => ['VM\Financial\Models\ValidationProcess', 'order' => 'name', 'foreignKey' => 'validation_process_id'],
-        'remb_user' => ['VM\Financial\Models\Member', 'order' => 'name', 'foreignKey' => 'remb_user_id']
+        'remb_user' => ['VM\Financial\Models\Member', 'foreignKey' => 'remb_user_id']
     ];
     public $belongsToMany = [];
     public $morphTo = [];

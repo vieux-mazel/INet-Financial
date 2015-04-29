@@ -2,11 +2,42 @@
 
 <ul class="list-group" id="payments">
     {% for payment in payments %}
-      <li class="list-group-item">
-          CCP : <b> {{ payment.ccp }} </b> Montant: {{payment.amount}} <br>
-          Pour : {{payment.username}} <br>
-          {{payment.address}} <br>
-          {{payment.npa}} {{payment.city}}
+    <li class="list-group-item">
+        <input type="hidden" name="items[]" value="{{ item }}" />
+        <div class="row">
+            <div class="col-md-3">
+                CCP : <b> {{ payment.remb_user.ccp }} </b> Montant: {{payment.amount}}
+
+            </div>
+            <div class="col-md-3">
+                Pour : {{payment.remb_user.username}}
+
+            </div>
+            <div class="col-md-3">
+                {{payment.remb_user-address}} <br>
+                {{payment.remb_user.npa}} {{payment.remb_user.city}}
+            </div>
+            <div class="col-md-3">
+                <button type="button"
+                    class="close pull-right"
+                    aria-hidden="true"
+                    class=""
+                    onclick="$(this).closest('li').remove()">&times;</button>
+                <button type="button"
+                    class="close pull-right"
+                    aria-hidden="true"
+                    class=""
+                    onclick="$(this).closest('li').remove()">&times;</button>
+                <button type="button"
+                    class="close pull-right"
+                    aria-hidden="true"
+                    class=""
+                    onclick="$(this).closest('li').remove()">&times;</button>
+            </div>
+
+
+
+          </div>
       </li>
      {% endfor %}
 
