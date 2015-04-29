@@ -1,0 +1,26 @@
+# ===================================
+#  Form Field Definitions
+# ===================================
+fields:
+    id:
+        label: ID
+        disabled: true
+    name:
+        label: Name
+
+    description:
+        label: Description
+
+    validator:
+        label: Validator
+        type: relation
+    executor:
+        label: Executor
+        type: relation
+
+    categories:
+        label: Categories
+        type: relation
+        #select: name
+        #select: @name
+        #searchable: true

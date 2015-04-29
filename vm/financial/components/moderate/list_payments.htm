@@ -1,0 +1,13 @@
+{% set payments = __SELF__.paymentsModerated %}
+
+<ul class="list-group" id="payments">
+    {% for payment in payments %}
+      <li class="list-group-item">
+          CCP : <b> {{ payment.ccp }} </b> Montant: {{payment.amount}} <br>
+          Pour : {{payment.username}} <br>
+          {{payment.address}} <br>
+          {{payment.npa}} {{payment.city}}
+      </li>
+     {% endfor %}
+
+</ul>

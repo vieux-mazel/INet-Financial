@@ -1,0 +1,74 @@
+{% set categories = __SELF__.categories %}
+
+<div class="confirm-container">
+<!--This will contain the confirmation when the email is successfully sent-->
+</div>
+<form
+    data-request="{{ __SELF__ }}::onAddRemb"
+    data-request-update="'{{ __SELF__ }}::confirm': '.confirm-container'"
+    id="rembform"
+>
+    <div class="form-group">
+        <label for="registerName"> Nom et Prénom</label>
+        <input type="text"
+            class="form-control"
+            id="registerName"
+            placeholder="Entrez votre nom et prénom"
+            name="username">
+    </div>
+
+    <div class="form-group">
+        <label for="registerEmail">Email</label>
+        <input type="email"
+            class="form-control"
+            id="registerEmail"
+            placeholder="Email"
+            name="email">
+        </div>
+    <div class="form-group">
+      <label for="address">Adresse</label>
+      <input type="text"
+            class="form-control"
+            id="registerAddress"
+            placeholder="Rue d'Italie 24"
+            name="address"/>
+
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="registerNPA">NPA</label>
+            <input type="text"
+                    class="form-control"
+                    id="registerNPA"
+                    placeholder="1800"
+                    name="npa">
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="registerCity">Ville</label>
+            <input type="text"
+                    class="form-control"
+                    id="registerCity"
+                    placeholder="Vevey"
+                    name="city">
+          </div>
+        </div>
+    </div>
+    <div class="form-group">
+      <label for="registerCCP">CCP ou IBAN</label>
+      <input type="text"
+            class="form-control"
+            id="registerCCP"
+            placeholder="CCP 18-1802-3 / CH12 0098 2913 1234 0987"
+            name="ccp">
+    </div>
+    {%partial __SELF__ ~ '::form_category'%}
+    <div class="form-group">
+        <label for="registerDescription">Description</label>
+        <textarea type="textarea" class="form-control" placeholder="Achat de 300 Flyers pour le stand ASVd des 20KM de Lausanne" name="description"></textarea>
+    </div>
+
+    <button type="submit" class="btn btn-success">Envoyer </button>
+</form>

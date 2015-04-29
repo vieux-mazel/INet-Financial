@@ -1,0 +1,31 @@
+# ===================================
+#  Form Behavior Config
+# ===================================
+
+# Record name
+name: Category
+
+# Model Form Field configuration
+form: $/vm/financial/models/category/fields.yaml
+
+# Model Class name
+modelClass: VM\Financial\Models\Category
+
+# Default redirect location
+defaultRedirect: vm/financial/category
+
+# Create page
+create:
+    title: Create Category
+    redirect: vm/financial/category/update/:id
+    redirectClose: vm/financial/category
+
+# Update page
+update:
+    title: Edit Category
+    redirect: vm/financial/category
+    redirectClose: vm/financial/category
+
+# Preview page
+preview:
+    title: Preview Category

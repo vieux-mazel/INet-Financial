@@ -1,0 +1,17 @@
+
+{% if errorHappened %}
+    {% partial __SELF__~'::flash-messages' %}
+{% else %}
+    {% flash %}
+        <div class="alert alert-success">
+            <button type="button" class="close" data-dismiss="success" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            {{ message|raw }}
+        </div>
+        <script>
+        document.getElementById("rembform").reset();
+        </script>
+    {% endflash %}
+
+{% endif %}

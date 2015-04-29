@@ -1,0 +1,20 @@
+# ===================================
+# List Column Definitions
+# ===================================
+columns:
+    id:
+        label: ID
+    name:
+        label: Name
+
+    created_at:
+        label: Date Created
+        type: date
+        invisible: true
+    updated_at:
+        label: Last Update
+        type: date
+    payments:
+        label: Payments
+        relation: payments
+        select: description

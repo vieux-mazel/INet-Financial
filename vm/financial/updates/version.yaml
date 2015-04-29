@@ -1,0 +1,17 @@
+1.0.1: First version of Financial
+1.0.2:
+    - Create Remboursement table
+    - create_remboursements_table.php
+1.0.3:
+    - Create Category table
+    - create_categories_table.php
+1.0.4:
+    - Create Junction table
+    - create_payment_cats_table.php
+1.0.5:
+    - Create Validation Process and Order tables
+    - create_validation_processes_table.php
+    - create_orders_table.php
+1.0.6:
+    - Add Link to User based on Rainlab.Forum
+    - create_members_table.php

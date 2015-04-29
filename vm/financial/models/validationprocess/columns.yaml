@@ -1,0 +1,35 @@
+# ===================================
+# List Column Definitions
+# ===================================
+columns:
+    id:
+        label: ID
+    name:
+
+        label: Name
+
+    description:
+        label: Description
+
+    categories:
+        label: Catégories
+        relation: categories
+        select: name
+
+    payments:
+        label: Payements
+        relation: payments
+        select: description
+        #select: username," - ", ccp
+
+    validator:
+        label: Validator
+        relation: validator
+        select: name
+        #select: (SELECT COUNT(1) FROM vm_financial_assigned_validator WHERE process_id = vm_financial_validation_processes.id)
+
+    executor:
+        label: Executor
+        relation: executor
+        select: name
+        #select: (SELECT COUNT(1) FROM vm_financial_assigned_executor WHERE process_id = vm_financial_validation_processes.id)

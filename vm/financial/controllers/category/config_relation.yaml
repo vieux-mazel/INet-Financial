@@ -1,0 +1,13 @@
+# ===================================
+# List Behavior Config
+# ===================================
+categories:
+    label: Category
+    view:
+        list: $/vm/financial/models/category/columns.yaml
+        toolbarButtons: create|add|remove
+    manage:
+        showSearch: true
+        recordsPerPage: 100
+        list: $/vm/financial/models/category/columns.yaml
+        form: $/vm/financial/models/category/fields.yaml

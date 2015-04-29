@@ -1,0 +1,47 @@
+{% set categories = __SELF__.categories %}
+{% set validationprocess = __SELF__.validationprocess %}
+<div class="form-group">
+    <label for="registerCategory"> Type de remboursement (shéma de validation) </label>
+    <select class="form-control" id="validationprocess" name="validationprocess">
+        <option values="">--Selectionnez--</option>
+        {% for process in validationprocess %}
+        <option value="{{process.id}}" name="{{process.id}}">{{process.name}}</option>
+        {% endfor %}
+    </select>
+</div>
+<div class="form-group">
+    <label for="registerCategory"> Catégories </label>
+        <select class="form-control" id="category" name="category">
+        </select>
+</div>
+
+
+<script>
+{% for process in validationprocess %}
+    var id_{{process.id}} = [
+        {% for cat in process.categories %}
+                {display: "{{cat.name}}", value:"{{cat.id}}"},
+        {% endfor %}
+    ];
+{% endfor %}
+$("#validationprocess").change(function() {
+    var parent = $(this).val();
+    //alert(parent);
+    //console.debug(parent);
+    switch(parent){
+    {% for cat in categories %}
+        case '{{cat.id}}':
+              list(id_{{cat.id}});
+            break;
+    {% endfor %}
+        default: //default child option is blank
+            $("#category").html('');
+            break;
+           }
+     });function list(array_list)
+               {
+                   $("#category").html(""); //reset child options
+                   $(array_list).each(function (i) { //populate child options
+                   $("#category").append("<option value=\""+array_list[i].value+"\">"+array_list[i].display+"</option>");
+                   });}
+</script>

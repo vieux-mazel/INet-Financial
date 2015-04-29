@@ -1,0 +1,31 @@
+# ===================================
+#  Form Behavior Config
+# ===================================
+
+# Record name
+name: Validation Process
+
+# Model Form Field configuration
+form: $/vm/financial/models/validationprocess/fields.yaml
+
+# Model Class name
+modelClass: VM\Financial\Models\ValidationProcess
+
+# Default redirect location
+defaultRedirect: vm/financial/validationprocess
+
+# Create page
+create:
+    title: Create Validation Process
+    redirect: vm/financial/validationprocess/update/:id
+    redirectClose: vm/financial/validationprocess
+
+# Update page
+update:
+    title: Edit Validation Process
+    redirect: vm/financial/validationprocess
+    redirectClose: vm/financial/validationprocess
+
+# Preview page
+preview:
+    title: Preview Validation Process

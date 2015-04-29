@@ -1,0 +1,8 @@
+{% set payments = __SELF__.paymentsModerated %}
+<h1> Moderator </h1>
+<div class="container">
+    <h2> Liste des payements </h2>
+    <div class="row">
+        {%partial __SELF__ ~ '::list_payments'%}
+    </div>
+</div>
