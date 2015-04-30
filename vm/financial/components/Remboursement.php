@@ -90,13 +90,6 @@ class Remboursement extends ComponentBase
 
             // Associate and create user through member model
             $currentRemb->remb_user = $this->userExistOrCreate($email);
-            #$currentRemb->username = $username;
-            #$currentRemb->email = $email;
-            #$currentRemb->address = $address;
-            #$currentRemb->npa = $npa;
-            #$currentRemb->city = $city;
-            #$currentRemb->ccp = $ccp;
-            #$currentRemb->description = $description;
 
             // associate Validation process
             $validationprocess = ValidationProcess::find($processid);
@@ -130,44 +123,53 @@ class Remboursement extends ComponentBase
      */
     function userExistOrCreate($email)
     {
-        $user = User::where('email', '=', $email)->get();
-        if(!$user->isEmpty()){
-            //TODO update field if changed
-            return $user;
-        }
         $username = post('username');
         $address = post('address');
         $npa = post('npa');
         $city = post('city');
         $ccp = post('ccp');
 
-        /*
-         * Register user
-         */
-         $password = str_random(20);
-         $data = [ //data array which contain email & a random pass
-             'email' => $email,
-             'password' => $password,
-             'password_confirmation' => $password
-         ];
+        // Check if user exist in Remboursement User model
+        //
+        $rb_user = RembUser::where('email', '=', $email)->first();
+        $user = User::where('email', '=', $email)->first();
+        if(!is_null($rb_user) && !is_null($user)){
+            return $rb_user;
+        }
 
-        $requireActivation = UserSettings::get('require_activation', true);
-        $automaticActivation = UserSettings::get('activate_mode') == UserSettings::ACTIVATE_AUTO;
-        $userActivation = UserSettings::get('activate_mode') == UserSettings::ACTIVATE_USER;
-        $user = Auth::register($data, $automaticActivation);
-        Auth::login($user);
+        if(is_null($user)){
+            /*
+             * Register user
+             */
+             $password = str_random(20);
+             $data = [ //data array which contain email & a random pass
+                 'email' => $email,
+                 'password' => $password,
+                 'password_confirmation' => $password
+             ];
 
-        $rembUser = new RembUser;
-        $rembUser->username = $username;
-        $rembUser->email = $email;
-        $rembUser->ccp = $ccp;
-        $rembUser->npa = $npa;
-        $rembUser->city = $city;
-        $rembUser->address = $address;
-        $rembUser->user = $user;
-        $rembUser->save();
-
-        return $user;
+            $requireActivation = UserSettings::get('require_activation', true);
+            $automaticActivation = UserSettings::get('activate_mode') == UserSettings::ACTIVATE_AUTO;
+            $userActivation = UserSettings::get('activate_mode') == UserSettings::ACTIVATE_USER;
+            $user = Auth::register($data, $automaticActivation);
+            Auth::login($user);
+            $rb_user->user = $user;
+            $rb_user->save();
+            return $rb_user;
+        }
+        if(is_null($rb_user)){
+            #TODO update field if changed
+            $rembUser = new RembUser;
+            $rembUser->username = $username;
+            $rembUser->email = $email;
+            $rembUser->ccp = $ccp;
+            $rembUser->npa = $npa;
+            $rembUser->city = $city;
+            $rembUser->address = $address;
+            $rembUser->user = $user;
+            $rembUser->save();
+            return $rembUser;
+        }
     }
 
 }

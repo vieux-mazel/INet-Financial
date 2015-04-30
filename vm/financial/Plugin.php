@@ -1,8 +1,10 @@
 <?php namespace VM\Financial;
 
 use Event;
+use App;
 use Backend;
 use System\Classes\PluginBase;
+use Illuminate\Foundation\AliasLoader;
 use ShahiemSeymor\Roles\Models\UserPermission as UserPerms;
 use RainLab\User\Controllers\Users as UsersController;
 use RainLab\User\Models\User;
@@ -114,6 +116,15 @@ class Plugin extends PluginBase
             'VM\Financial\Components\Moderate' => 'rembmoderate',
             'VM\Financial\Components\Pay' => 'rembpay'
         ];
+    }
+    public function register()
+    {
+        $alias = AliasLoader::getInstance();
+        $alias->alias('Auth', 'RainLab\User\Facades\Auth');
+
+        App::singleton('user.auth', function() {
+            return \RainLab\User\Classes\AuthManager::instance();
+        });
     }
     public function registerNavigation()
     {

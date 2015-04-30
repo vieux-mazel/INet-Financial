@@ -28,7 +28,7 @@ class Member extends Model
      /**
       * @var array The attributes that should be visible in arrays.
       */
-     protected $visible = ['username', 'slug'];
+     protected $visible = ['username', 'slug','id'];
 
      /**
       * @var array Auto generated slug

@@ -2,20 +2,22 @@
 
 <ul class="list-group" id="payments">
     {% for payment in payments %}
+    {% set user = payment.remb_user %}
     <li class="list-group-item">
-        <input type="hidden" name="items[]" value="{{ item }}" />
+        <input type="hidden" name="items[]" value="{{ payment }}" />
         <div class="row">
             <div class="col-md-3">
-                CCP : <b> {{ payment.remb_user.ccp }} </b> Montant: {{payment.amount}}
+                CCP : <b> {{ user.ccp }} </b> Montant: <!--{{payment.amount}}-->
 
             </div>
             <div class="col-md-3">
-                Pour : {{payment.remb_user.username}}
+                Pour : {{ user.username }} <br>
+                {{ user.email }}
 
             </div>
             <div class="col-md-3">
-                {{payment.remb_user-address}} <br>
-                {{payment.remb_user.npa}} {{payment.remb_user.city}}
+                {{ user.address }} <br>
+                {{ user.npa }} - {{ user.city }}
             </div>
             <div class="col-md-3">
                 <button type="button"

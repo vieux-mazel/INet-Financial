@@ -27,9 +27,6 @@ class Remboursement extends Model
 
     public $rules = [
         'category'   => 'required',
-        'email'      => 'required|email',
-        'ccp'        => 'required|alpha_num|confirmed',
-        'surname'    => 'required|alpha_num',
     ];
 
     /**

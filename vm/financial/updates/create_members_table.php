@@ -15,7 +15,7 @@ class CreateMembersTable extends Migration
             $table->integer('user_id')->unsigned()->index()->nullable();
             $table->string('slug')->nullable();
             $table->string('username')->nullable();
-            $table->string('email');
+            $table->string('email')->unique();
             $table->string('npa')->nullable();
             $table->string('city')->nullable();
             $table->string('address')->nullable();

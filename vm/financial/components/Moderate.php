@@ -34,8 +34,7 @@ class Moderate extends ComponentBase
      */
     public function onRun()
     {
-        $this->paymentsModerated = Rembdata::all()->take();
-        $this->paymentsPayed = Rembdata::where('is_confirmed', '=', 1)->take(10);
+        $this->paymentsModerated = Rembdata::all();
 
     }
 }
