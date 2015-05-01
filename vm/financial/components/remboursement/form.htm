@@ -3,20 +3,15 @@
 <div class="confirm-container">
 <!--This will contain the confirmation when the email is successfully sent-->
 </div>
-<form
-    data-request="{{ __SELF__ }}::onAddRemb"
-    data-request-update="'{{ __SELF__ }}::confirm': '.confirm-container'"
-    id="rembform"
->
+{{ form_open({ request: '__SELF__::onAddRemb' , files: true, id: rembform}) }}
     <div class="form-group">
         <label for="registerName"> Nom et Prénom</label>
         <input type="text"
             class="form-control"
             id="registerName"
             placeholder="Entrez votre nom et prénom"
-            name="username">
+            name="username" required>
     </div>
-
     <div class="form-group">
         <label for="registerEmail">Email</label>
         <input type="email"
@@ -31,7 +26,7 @@
             class="form-control"
             id="registerAddress"
             placeholder="Rue d'Italie 24"
-            name="address"/>
+            name="address"/ required>
 
     </div>
     <div class="row">
@@ -42,7 +37,7 @@
                     class="form-control"
                     id="registerNPA"
                     placeholder="1800"
-                    name="npa">
+                    name="npa" required>
           </div>
         </div>
         <div class="col-md-6">
@@ -52,7 +47,7 @@
                     class="form-control"
                     id="registerCity"
                     placeholder="Vevey"
-                    name="city">
+                    name="city" required>
           </div>
         </div>
     </div>
@@ -62,13 +57,20 @@
             class="form-control"
             id="registerCCP"
             placeholder="CCP 18-1802-3 / CH12 0098 2913 1234 0987"
-            name="ccp">
+            name="ccp" required>
     </div>
     {%partial __SELF__ ~ '::form_category'%}
+
+    <div class="form-group">
+      <label for="justificatifs">Justificatif</label>
+      <input type="file" name="justificatifs" id="justificatifs" class="filestyle" data-buttonName="btn-primary" required>
+    </div>
     <div class="form-group">
         <label for="registerDescription">Description</label>
         <textarea type="textarea" class="form-control" placeholder="Achat de 300 Flyers pour le stand ASVd des 20KM de Lausanne" name="description"></textarea>
     </div>
 
-    <button type="submit" class="btn btn-success">Envoyer </button>
-</form>
+    <div class="form-group">
+        <button class="pull-right btn btn-primary" type="submit">Submit</button>
+    </div>
+{{ form_close() }}

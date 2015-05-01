@@ -35,6 +35,24 @@ class Moderate extends ComponentBase
     public function onRun()
     {
         $this->paymentsModerated = Rembdata::all();
+        $this->setVariables();
+    }
+    public function setVariables()
+    {
+        $this-> attachment 
+    }
+    /**
+     * Change payment's status from 'new' to 'moderated'
+     */
+    public function onAccept()
+    {
+
+    }
+    /**
+     * Ask for more details about a payment by sending an email to the payment's owner
+     */
+    public function onAskMore(){
+
 
     }
 }

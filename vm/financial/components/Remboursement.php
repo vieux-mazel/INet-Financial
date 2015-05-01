@@ -7,9 +7,11 @@ use VM\Financial\Models\ValidationProcess as ValidationProcess;
 use RainLab\User\Models\Settings as UserSettings;
 use RainLab\User\Models\User as User;
 use VM\Financial\Models\Member as RembUser;
+use System\Models\File as FileUpload;
 use Flash;
 use Auth;
 use Redirect;
+use Input;
 class Remboursement extends ComponentBase
 {
 
@@ -99,16 +101,14 @@ class Remboursement extends ComponentBase
             $category = Categories::find($catid);
             $currentRemb->category = $category;
 
-            //Handle user registration
+            // Pièce jointe
+            $file = new FileUpload;
+            $file->data = Input::file('justificatifs');
+            $file->save();
+            $currentRemb->justificatifs()->add($file);
 
             // Save Remboursement
             $success = $currentRemb->save();
-            $flashMessage = '<p>La demande de remboursement a été enregistrée </p>';
-            \Flash::success($flashMessage);
-            #$redirectUrl = $this->pageUrl($this->property('redirect'));
-            #return Redirect::intended($redirectUrl);
-            #return Redirect::to('test');
-            return ['error' => false];
 
     }
 
@@ -136,7 +136,17 @@ class Remboursement extends ComponentBase
         if(!is_null($rb_user) && !is_null($user)){
             return $rb_user;
         }
+        if(is_null($rb_user)){
+            #TODO update field if changed
+            $rembUser = new RembUser;
+            $rembUser->username = $username;
+            $rembUser->email = $email;
+            $rembUser->ccp = $ccp;
+            $rembUser->npa = $npa;
+            $rembUser->city = $city;
+            $rembUser->address = $address;
 
+        }
         if(is_null($user)){
             /*
              * Register user
@@ -153,23 +163,12 @@ class Remboursement extends ComponentBase
             $userActivation = UserSettings::get('activate_mode') == UserSettings::ACTIVATE_USER;
             $user = Auth::register($data, $automaticActivation);
             Auth::login($user);
-            $rb_user->user = $user;
-            $rb_user->save();
-            return $rb_user;
+            $user = User::where('email', '=', $email)->first();
         }
-        if(is_null($rb_user)){
-            #TODO update field if changed
-            $rembUser = new RembUser;
-            $rembUser->username = $username;
-            $rembUser->email = $email;
-            $rembUser->ccp = $ccp;
-            $rembUser->npa = $npa;
-            $rembUser->city = $city;
-            $rembUser->address = $address;
-            $rembUser->user = $user;
-            $rembUser->save();
-            return $rembUser;
-        }
+
+        $rembUser->user = $user;
+        $rembUser->save();
+        return $rembUser;
     }
 
 }
