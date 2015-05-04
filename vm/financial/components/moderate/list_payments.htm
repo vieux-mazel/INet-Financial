@@ -1,4 +1,3 @@
-{% set payments = __SELF__.paymentsModerated %}
 <div class="panel panel-info">
     <div class="panel-heading">
         <h3 class="panel-title">Modération des payements</h3>
@@ -25,33 +24,60 @@
                     <th>Actions </th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id='moderate_table'>
+
+
                 {% for payment in payments %}
-                {% set user = payment.remb_user %}
+                {% set pay_user = payment.remb_user %}
+                {% if payment.status == status %}
+                {% if can(payment.validation_process.validator.name) %}
                     <tr>
+
                         <td style="vertical-align:middle">#{{payment.id}}</td>
-                        <td style="vertical-align:middle"><b> {{ user.ccp }} </b></td>
+                        <td style="vertical-align:middle"><b> {{ pay_user.ccp }} </b></td>
                         <td style="vertical-align:middle">
-                            {{ user.username }}  <br>
-                            {{ user.address }} <br>
-                            {{ user.npa }} - {{ user.city }}
+                            {{ pay_user.username }}  <br>
+                            {{ pay_user.address }} <br>
+                            {{ pay_user.npa }} - {{ pay_user.city }}
                         </td>
                         <td style="vertical-align:middle">{{payment.amount}} <label class="label label-warning">CHF</label> </td>
                         <!--<td style="vertical-align:middle">
                             <label class="label label-{{status_type}}">{{status}}</label>
                         </td>-->
                         <td style="vertical-align:middle">
-                            {{ payment.justificatifs}}
+                            {% for justificatif in payment.justificatifs %}
+                                <a href="{{justificatif.path}}" onclick="return popitup('{{justificatif.path}}')"> <button class="btn btn-success btn-sm">Justificatif</button> </a>
+                            {% endfor %}
                         </td>
-                        {% if payment.status == 'new' %}
+                        {% if status == 'new' %}
                         <td style="vertical-align:middle"><div data-request-data="id: {{payment.id}}">
-                            <button class="btn btn-success btn-sm" data-request="onAccept">Accept</button>
-                            <button class="btn btn-danger btn-sm" data-request="onAskMore">Demander un complément</button></div></td>
-                        {% endif %}
+                            <button class="btn btn-success btn-sm" data-request="onAccept" data-request-update="'{{__SELF__}}::default':'#default_container'">Accepter</button>
+                            <button class="btn btn-warning btn-sm" data-request="onAskMore" data-request-update="'{{__SELF__}}::default':'#default_container'">Demander un complément</button></div>
+                        </td>
+                        {%endif%}
+                        {% if status == 'hold' %}
+                            <td style="vertical-align:middle"><div data-request-data="id: {{payment.id}}">
+                                <button class="disabled btn btn-success btn-sm" data-request="onAccept" data-request-update="'{{__SELF__}}::default':'#default_container'">Accepter</button>
+                                <button class="disabled btn btn-warning btn-sm" data-request="onAskMore" data-request-update="'{{__SELF__}}::default':'#default_container'">Demander un complément</button></div>
+                            </td>
+                        {% endif%}
                     </tr>
+                {% endif %}
+                {% endif %}
                 {% endfor %}
             </tbody>
         </table>
     </div>
     </div>
 </div>
+
+<script language="javascript" type="text/javascript">
+<!--
+function popitup(url) {
+	newwindow=window.open(url,'name','height=600,width=650');
+	if (window.focus) {newwindow.focus()}
+	return false;
+}
+
+// -->
+</script>

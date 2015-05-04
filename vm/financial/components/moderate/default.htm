@@ -1,12 +1,12 @@
 {% set payments = __SELF__.paymentsModerated %}
-<div class="container">
+<div class="container" id="default_container">
     <h2> Liste des payements à modérer </h2>
     <div class="row">
-        {%partial __SELF__ ~ '::list_payments' status='A modérer' status_type='info' %}
+        {%partial __SELF__ ~ '::list_payments' payments=payments status='new' status_type='info' %}
     </div>
 
     <h2> Liste des payements en demande de compléments</h2>
     <div class="row">
-        {%partial __SELF__ ~ '::list_payments' status='En attente de compléments' status_type='warning' %}
+        {%partial __SELF__ ~ '::list_payments' payments=payments status='hold' status_type='warning' %}
     </div>
 </div>

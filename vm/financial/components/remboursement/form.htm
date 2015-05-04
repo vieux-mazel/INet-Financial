@@ -1,9 +1,6 @@
 {% set categories = __SELF__.categories %}
 
-<div class="confirm-container">
-<!--This will contain the confirmation when the email is successfully sent-->
-</div>
-{{ form_open({ request: '__SELF__::onAddRemb' , files: true, id: rembform}) }}
+{{ form_open({ request: 'onAddRemb', files: true, id: 'rembform'}) }}
     <div class="form-group">
         <label for="registerName"> Nom et Prénom</label>
         <input type="text"
@@ -19,7 +16,7 @@
             id="registerEmail"
             placeholder="Email"
             name="email">
-        </div>
+    </div>
     <div class="form-group">
       <label for="address">Adresse</label>
       <input type="text"

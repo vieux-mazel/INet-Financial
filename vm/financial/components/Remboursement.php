@@ -62,60 +62,34 @@ class Remboursement extends ComponentBase
         $npa = post('npa');
         $city = post('city');
         $ccp = post('ccp');
-        $errorHappened = false;
-        if (empty($username) || empty($email) || empty($address) || empty($npa) || empty($city) || empty($ccp)){
-            $errorHappened = true;
-            $flashMessae = '';
-            if ( empty($username) )
-                $flashMessae .= '<p>Merci d\'indiquer votre nom et prénom</p>';
-            if ( empty($email) )
-                $flashMessae .= '<p>Merci d\'indiquer votre email</p>';
-            if ( empty($address) )
-                $flashMessae .= '<p>Merci d\'indiquer votre addresse ';
-            if ( empty($npa) )
-                $flashMessae .= '<p>Merci d\'indiquer le NPA de votre ville ';
-            if ( empty($city) )
-                $flashMessae .= '<p>Merci d\'indiquer votre Ville ';
-            if ( empty($ccp) )
-                $flashMessae .= '<p>Merci d\'indiquer votre CCP ou votre IBAN ';
-            if ($errorHappened)
-                \Flash::warning($flashMessae);
-            $this->page['errorHappened'] = $errorHappened;
-        }
-        if ($errorHappened)
-            return false; #['error' => true, 'message' => 'One or more elements failed validation'];
-        else
-            $catid = post('category');
-            $processid = post('validationprocess');
-            $currentRemb = new Rembdata;
-            $currentRemb->description = $description;
+        echo $description;
+        $catid = post('category');
+        $processid = post('validationprocess');
+        $currentRemb = new Rembdata;
+        $currentRemb->description = $description;
 
-            // Associate and create user through member model
-            $currentRemb->remb_user = $this->userExistOrCreate($email);
+        // Associate and create user through member model
+        $currentRemb->remb_user = $this->userExistOrCreate($email);
 
-            // associate Validation process
-            $validationprocess = ValidationProcess::find($processid);
-            $currentRemb->validation_process = $validationprocess;
+        // associate Validation process
+        $validationprocess = ValidationProcess::find($processid);
+        $currentRemb->validation_process = $validationprocess;
 
-            // associate category
-            $category = Categories::find($catid);
-            $currentRemb->category = $category;
+        // associate category
+        $category = Categories::find($catid);
+        $currentRemb->category = $category;
 
-            // Pièce jointe
-            $file = new FileUpload;
-            $file->data = Input::file('justificatifs');
-            $file->save();
-            $currentRemb->justificatifs()->add($file);
+        // Pièce jointe
+        $file = new FileUpload;
+        $file->data = Input::file('justificatifs');
+        $file->save();
+        $currentRemb->save();
+        $currentRemb->justificatifs()->add($file);
+        $currentRemb->save();
+        // Save Remboursement
 
-            // Save Remboursement
-            $success = $currentRemb->save();
 
     }
-
-    function onFlash(){
-        return ['#flashMessages' => $this->renderPartial('flash-messages')];
-    }
-
     /**
      * Check if a user exist (by checking email)
      * @param string $email user's email
