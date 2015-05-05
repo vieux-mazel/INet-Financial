@@ -1,6 +1,9 @@
 {% set categories = __SELF__.categories %}
 
 {{ form_open({ request: 'onAddRemb', files: true, id: 'rembform'}) }}
+{% if user %}
+Your current credential : ...
+{% else %}
     <div class="form-group">
         <label for="registerName"> Nom et Prénom</label>
         <input type="text"
@@ -18,7 +21,7 @@
             class="form-control"
             id="registerEmail"
             placeholder="Email"
-            name="email">
+            name="email" required>
       </div>
     </div>
     <div class="form-group">
@@ -63,12 +66,13 @@
             placeholder="CCP 18-1802-3 / CH12 0098 2913 1234 0987"
             name="ccp" required>
     </div>
+{%endif%}
     {%partial __SELF__ ~ '::form_category'%}
     <div class="form-group">
       <label for="registerAmount">Montant total</label>
       <div class="input-group">
         <span class="input-group-addon">$</span>
-        <input type="text" class="form-control" id="amount" name="amount" placeholder="CHF">
+        <input type="text" class="form-control" id="amount" name="amount" placeholder="CHF" required>
       </div>
     </div>
     <div class="form-group">

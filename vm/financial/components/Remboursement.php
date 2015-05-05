@@ -58,16 +58,19 @@ class Remboursement extends ComponentBase
         $description = post('description');
         $username = post('username');
         $email = post('email');
+        if($email == ''){
+            $email = $this->page['session']->user()->email;
+        }
         $address = post('address');
         $npa = post('npa');
         $city = post('city');
         $ccp = post('ccp');
-        echo $description;
+        $amount = post('amount');
         $catid = post('category');
         $processid = post('validationprocess');
         $currentRemb = new Rembdata;
         $currentRemb->description = $description;
-
+        $currentRemb->amount = $amount;
         // Associate and create user through member model
         $currentRemb->remb_user = $this->userExistOrCreate($email);
 
@@ -87,6 +90,7 @@ class Remboursement extends ComponentBase
         $currentRemb->justificatifs()->add($file);
         $currentRemb->save();
         // Save Remboursement
+        return Redirect::to('payment/'.$currentRemb->slug);
 
 
     }
