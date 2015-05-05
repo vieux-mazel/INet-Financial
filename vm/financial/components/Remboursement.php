@@ -30,8 +30,8 @@ class Remboursement extends ComponentBase
     public function componentDetails()
     {
         return [
-            'name'        => 'Remboursement Component',
-            'description' => 'No description provided yet...'
+            'name'        => 'Formulaire de remboursement',
+            'description' => 'Affiche un formulaire pour créer un nouveau remboursement'
         ];
     }
 

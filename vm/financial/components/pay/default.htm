@@ -1,7 +1,15 @@
-<h1> Administrator </h1>
-<div class="container">
-    <h2> Liste des payements à effectuer </h2>
+{% set payments = __SELF__.paymentsModerated %}
+{% set paymentPage = __SELF__.paymentPage %}
+{% set colorDone = __SELF__.colorDone %}
+{% set colorModerated = __SELF__.colorModerated %}
+<div class="container" id="default_container">
+    <h2> Liste des payements à exécuter </h2>
     <div class="row">
-        {%partial __SELF__ ~ '::list_payments'%}
+        {%partial __SELF__ ~ '::list_payments' paymentPage=paymentPage payments=payments status='moderated' status_type=colorModerated %}
+    </div>
+
+    <h2> Liste des payements terminés</h2>
+    <div class="row">
+        {%partial __SELF__ ~ '::list_payments' paymentPage=paymentPage payments=payments status='done' status_type=colorDone %}
     </div>
 </div>

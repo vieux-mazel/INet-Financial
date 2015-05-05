@@ -15,10 +15,12 @@ class CreateRemboursementsTable extends Migration
             $table->string('amount')->nullable();
             $table->string('ccp')->nullable();
             $table->string('description')->nullable();
+            $table->string('slug')->index()->unique();
+
+            $table->integer('validated_by')->unsigned();
+            $table->integer('executed_by')->unsigned();
+
             // TODO non boolean status for Paymenet
-            $table->boolean('is_complete')->default(false);
-            $table->boolean('is_confirmed')->default(false);
-            $table->integer('remboursement_id')->unsigned();
             $table->integer('category_id')->unsigned();
             $table->integer('validation_process_id')->unsigned();
             $table->enum('status', ['new', 'hold', 'moderated','done'])->default('new');

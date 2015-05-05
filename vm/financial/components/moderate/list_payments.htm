@@ -33,7 +33,7 @@
                 {% if can(payment.validation_process.validator.name) %}
                     <tr>
 
-                        <td style="vertical-align:middle">#{{payment.id}}</td>
+                        <td style="vertical-align:middle"><a href='payment/{{payment.slug}}'>#{{payment.id}}</a></td>
                         <td style="vertical-align:middle"><b> {{ pay_user.ccp }} </b></td>
                         <td style="vertical-align:middle">
                             {{ pay_user.username }}  <br>
@@ -49,18 +49,9 @@
                                 <a href="{{justificatif.path}}" onclick="return popitup('{{justificatif.path}}')"> <button class="btn btn-success btn-sm">Justificatif</button> </a>
                             {% endfor %}
                         </td>
-                        {% if status == 'new' %}
-                        <td style="vertical-align:middle"><div data-request-data="id: {{payment.id}}">
-                            <button class="btn btn-success btn-sm" data-request="onAccept" data-request-update="'{{__SELF__}}::default':'#default_container'">Accepter</button>
-                            <button class="btn btn-warning btn-sm" data-request="onAskMore" data-request-update="'{{__SELF__}}::default':'#default_container'">Demander un complément</button></div>
+                        <td style="vertical-align:middle">
+                            {%partial __SELF__ ~ '::moderate_button' status=status payment=payment %}
                         </td>
-                        {%endif%}
-                        {% if status == 'hold' %}
-                            <td style="vertical-align:middle"><div data-request-data="id: {{payment.id}}">
-                                <button class="disabled btn btn-success btn-sm" data-request="onAccept" data-request-update="'{{__SELF__}}::default':'#default_container'">Accepter</button>
-                                <button class="disabled btn btn-warning btn-sm" data-request="onAskMore" data-request-update="'{{__SELF__}}::default':'#default_container'">Demander un complément</button></div>
-                            </td>
-                        {% endif%}
                     </tr>
                 {% endif %}
                 {% endif %}

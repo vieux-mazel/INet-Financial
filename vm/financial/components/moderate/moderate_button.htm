@@ -1,0 +1,11 @@
+{% if status == 'new' %}
+<div data-request-data="id: {{payment.id}}">
+    <button class="btn btn-success btn-sm" data-request="onAccept" data-request-update="'{{__SELF__}}::default':'#default_container'">Accepter</button>
+    <button class="btn btn-warning btn-sm" data-request="onAskMore" data-request-update="'{{__SELF__}}::default':'#default_container'">Demander un complément</button>
+</div>
+{%endif%}
+{% if status == 'hold' %}
+    <div data-request-data="id: {{payment.id}}">
+        <button class="btn btn-success btn-sm" data-request="onAccept" data-request-update="'{{__SELF__}}::default':'#default_container'">Accepter</button>
+    </div>
+{% endif%}

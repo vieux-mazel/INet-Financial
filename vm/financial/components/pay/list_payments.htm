@@ -1,0 +1,74 @@
+<div class="panel panel-info">
+    <div class="panel-heading">
+        <h3 class="panel-title">Exécution des payements</h3>
+    </div>
+    <div class="panel-body">
+        <p>
+        Toutes les demandes de payements doivent-être modérées et validée. Dans la liste ci-dessous, vous pouvez effectuer les actions suivantes :
+        </p>
+        <ol style="list-style: decimal inside;">
+            <li>Accepter la demande de remboursement, elle sera ensuite envoyé automatiquement à la personne adéquate afin d'éxectuer le payement (sur Post finance par exemple)</li>
+            <li>Demander des informations complémentaires, un email sera envoyé à la personne en question lui demandant de compléter sa demande de remboursement</li>
+            <li>Modifier la demande -- Attention l'email du demandeur ne peut pas être changé !</li>
+        </ol>
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>N°</th>
+                    <th>CCP / IBAN </th>
+                    <th>Cordonées</th>
+                    <th>Montant</th>
+                    <!--<th>Status</th>-->
+                    <th>Document joint</th>
+                    <th>Actions </th>
+                </tr>
+            </thead>
+            <tbody id='moderate_table'>
+
+
+                {% for payment in payments %}
+                {% set pay_user = payment.remb_user %}
+                {% if payment.status == status %}
+                {% if can(payment.validation_process.executor.name) %}
+                    <tr>
+
+                        <td style="vertical-align:middle"><a href='payment/{{payment.slug}}'>#{{payment.id}}</a></td>
+                        <td style="vertical-align:middle"><b> {{ pay_user.ccp }} </b></td>
+                        <td style="vertical-align:middle">
+                            {{ pay_user.username }}  <br>
+                            {{ pay_user.address }} <br>
+                            {{ pay_user.npa }} - {{ pay_user.city }}
+                        </td>
+                        <td style="vertical-align:middle">{{payment.amount}} <label class="label label-warning">CHF</label> </td>
+                        <!--<td style="vertical-align:middle">
+                            <label class="label label-{{status_type}}">{{status}}</label>
+                        </td>-->
+                        <td style="vertical-align:middle">
+                            {% for justificatif in payment.justificatifs %}
+                                <a href="{{justificatif.path}}" onclick="return popitup('{{justificatif.path}}')"> <button class="btn btn-success btn-sm">Justificatif</button> </a>
+                            {% endfor %}
+                        </td>
+                        <td style="vertical-align:middle">
+                            {%partial __SELF__ ~ '::pay_button' status=status payment=payment %}
+                        </td>
+                    </tr>
+                {% endif %}
+                {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    </div>
+</div>
+
+<script language="javascript" type="text/javascript">
+<!--
+function popitup(url) {
+	newwindow=window.open(url,'name','height=600,width=650');
+	if (window.focus) {newwindow.focus()}
+	return false;
+}
+
+// -->
+</script>

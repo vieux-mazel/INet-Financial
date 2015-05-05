@@ -1,0 +1,5 @@
+{% if status == 'moderated' %}
+<div data-request-data="id: {{payment.id}}">
+    <button class="btn btn-success btn-sm" data-request="onDone" data-request-update="'{{__SELF__}}::default':'#default_container'">Payement effectué</button>
+</div>
+{%endif%}

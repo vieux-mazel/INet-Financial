@@ -114,7 +114,8 @@ class Plugin extends PluginBase
         return[
             'VM\Financial\Components\Remboursement' => 'rembform',
             'VM\Financial\Components\Moderate' => 'rembmoderate',
-            'VM\Financial\Components\Pay' => 'rembpay'
+            'VM\Financial\Components\Pay' => 'rembpay',
+            'VM\Financial\Components\Payment' => 'paymentslug'
         ];
     }
     public function register()
