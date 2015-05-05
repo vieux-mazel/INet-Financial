@@ -61,14 +61,21 @@ class Pay extends ComponentBase
     {
         $this->paymentsModerated = Rembdata::all();
         $this->paymentPage = $this->property('paymentPage');
-        $this->colorDone = Rembdata::where('status', '=', 'done')->get()->first()->getStatusColor();
-        $this->colorModerated =Rembdata::where('status', '=', 'moderated')->get()->first()->getStatusColor();
-        #$this->paymentsModerated->each(function($model) {
-        #    $model->justificatifs = $model->justificatifs->output();
-        #});
 
+        // Set status colors
+        $this->colorDone = Rembdata::where('status', '=', 'done')->get()->first();
+        if(is_null($this->colorDone)){
+            $this->colorDone = 'default';
+        }else{
+            $this->colorDone = $this->colorDone->getStatusColor();
+        }
+        $this->colorModerated =Rembdata::where('status', '=', 'moderated')->get()->first();
 
-        #echo $model->avatar->getPath();
+        if(is_null($this->colorModerated)){
+            $this->colorDone = 'default';
+        }else{
+            $this->colorDone = $this->colorModerated->getStatusColor();
+        }
     }
 
     public function onAttachment(){

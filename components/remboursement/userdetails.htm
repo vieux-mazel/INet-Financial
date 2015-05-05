@@ -1,0 +1,77 @@
+{% set financialData = __SELF__.financialData %}
+{{ form_open({ request: 'onUpdate', model: member}) }}
+<h3> Tes cordonnées bancaires</h3>
+    <div class="form-group">
+        <label for="registerName"> Nom et Prénom</label>
+        <input type="text"
+            class="form-control"
+            id="registerName"
+            placeholder="Entrez votre nom et prénom"
+            name="username"
+            value="{{financialData.username}}" required>
+    </div>
+
+    <div class="form-group">
+      <label for="registerEmail">Email</label>
+      <div class="input-group">
+        <span class="input-group-addon">@</span>
+
+        <input type="email"
+            class="form-control"
+            id="registerEmail"
+            placeholder="Ne peut pas être changé"
+            name="email"
+            value="{{financialData.email}}" disabled>
+      </div>
+    </div>
+
+    <div class="form-group">
+
+    </div>
+    <div class="form-group">
+      <label for="address">Adresse</label>
+      <input type="text"
+            class="form-control"
+            id="registerAddress"
+            placeholder="Rue d'Italie 24"
+            name="address"
+            value="{{financialData.address }}" required>
+
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="registerNPA">NPA</label>
+            <input type="text"
+                    class="form-control"
+                    id="registerNPA"
+                    placeholder="1800"
+                    name="npa"
+                    value="{{ financialData.npa }}" required>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="registerCity">Ville</label>
+            <input type="text"
+                    class="form-control"
+                    id="registerCity"
+                    placeholder="Vevey"
+                    name="city"
+                    value="{{financialData.city }}"required>
+          </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+      <label for="registerCCP">CCP ou IBAN</label>
+      <input type="text"
+            class="form-control"
+            id="registerCCP"
+            placeholder="CCP 18-1802-3 / CH12 0098 2913 1234 0987"
+            name="ccp"
+            value="{{ financialData.ccp }}"required>
+    </div>
+    <button type="submit" class="btn btn-default">Mettre à jour</button>
+
+{{ form_close() }}

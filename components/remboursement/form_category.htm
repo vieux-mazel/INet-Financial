@@ -1,8 +1,11 @@
 {% set categories = __SELF__.categories %}
+{% set financialData = __SELF__.financialData %}
+{% set datacomplete = __SELF__.datacomplete %}
+
 {% set validationprocess = __SELF__.validationprocess %}
 <div class="form-group">
     <label for="registerCategory"> Type de remboursement (shéma de validation) </label>
-    <select class="form-control" id="validationprocess" name="validationprocess" required>
+    <select class="form-control" id="validationprocess" name="validationprocess" required{% if not datacomplete%} disabled {% endif %}>
         <option values="">--Selectionnez--</option>
         {% for process in validationprocess %}
         <option value="{{process.id}}" name="{{process.id}}">{{process.name}}</option>
@@ -11,7 +14,7 @@
 </div>
 <div class="form-group">
     <label for="registerCategory"> Catégories </label>
-        <select class="form-control" id="category" name="category" required>
+        <select class="form-control" id="category" name="category" required{% if not datacomplete%} disabled {% endif %}>
         </select>
 </div>
 

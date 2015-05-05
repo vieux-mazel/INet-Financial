@@ -26,6 +26,18 @@ class Remboursement extends ComponentBase
      * @var array
      */
     public $validationprocess;
+    /**
+     * User's Financial data via Member models
+     * @var Member
+     */
+    public $financialData;
+
+    /**
+     * Check if user's data are complete
+     * @var Member
+     */
+    public $datacomplete = true;
+
 
     public function componentDetails()
     {
@@ -52,27 +64,45 @@ class Remboursement extends ComponentBase
     {
         $this->categories = Categories::all();
         $this->validationprocess = ValidationProcess::all();
+        $user = $this->user();
+        $this->financialData = RembUser::where('email', '=', $user->email)->first();
+        if(is_null($this->financialData)){
+            $rb_user = new RembUser;
+            $rb_user->username = $user->name;
+            $rb_user->email = $user->email;
+            $rb_user->save();
+            $this->financialData = RembUser::where('email', '=', $user->email)->first();
+            unset($rb_user);
+        }
+        if(!$this->financialData->is_confirmed){
+            $this->datacomplete = false;
+        }
+
     }
+
+    public function user()
+    {
+        if (!Auth::check())
+            return null;
+
+        return Auth::getUser();
+    }
+
     public function onAddRemb()
     {
-        $description = post('description');
-        $username = post('username');
-        $email = post('email');
-        if($email == ''){
-            $email = $this->page['session']->user()->email;
-        }
-        $address = post('address');
-        $npa = post('npa');
-        $city = post('city');
-        $ccp = post('ccp');
+        $user = $this->user();
+        $email = $user->email;
+        // Get post value
         $amount = post('amount');
         $catid = post('category');
+        $description = post('description');
         $processid = post('validationprocess');
+
+        // Create new Remboursement in database
         $currentRemb = new Rembdata;
         $currentRemb->description = $description;
         $currentRemb->amount = $amount;
-        // Associate and create user through member model
-        $currentRemb->remb_user = $this->userExistOrCreate($email);
+        $currentRemb->remb_user = RembUser::where('email', '=', $email)->first();
 
         // associate Validation process
         $validationprocess = ValidationProcess::find($processid);
@@ -86,9 +116,11 @@ class Remboursement extends ComponentBase
         $file = new FileUpload;
         $file->data = Input::file('justificatifs');
         $file->save();
+
         $currentRemb->save();
         $currentRemb->justificatifs()->add($file);
         $currentRemb->save();
+
         // Save Remboursement
         return Redirect::to('payment/'.$currentRemb->slug);
 
@@ -96,10 +128,9 @@ class Remboursement extends ComponentBase
     }
     /**
      * Check if a user exist (by checking email)
-     * @param string $email user's email
      * @return Member
      */
-    function userExistOrCreate($email)
+    function onUpdate()
     {
         $username = post('username');
         $address = post('address');
@@ -107,46 +138,26 @@ class Remboursement extends ComponentBase
         $city = post('city');
         $ccp = post('ccp');
 
+        // retrive logined in user's email
+        $user = $this->user();
+        $email = $user->email;
+
         // Check if user exist in Remboursement User model
-        //
         $rb_user = RembUser::where('email', '=', $email)->first();
         $user = User::where('email', '=', $email)->first();
-        if(!is_null($rb_user) && !is_null($user)){
-            return $rb_user;
-        }
+
         if(is_null($rb_user)){
-            #TODO update field if changed
-            $rembUser = new RembUser;
-            $rembUser->username = $username;
-            $rembUser->email = $email;
-            $rembUser->ccp = $ccp;
-            $rembUser->npa = $npa;
-            $rembUser->city = $city;
-            $rembUser->address = $address;
-
+            $rb_user = new RembUser;
         }
-        if(is_null($user)){
-            /*
-             * Register user
-             */
-             $password = str_random(20);
-             $data = [ //data array which contain email & a random pass
-                 'email' => $email,
-                 'password' => $password,
-                 'password_confirmation' => $password
-             ];
-
-            $requireActivation = UserSettings::get('require_activation', true);
-            $automaticActivation = UserSettings::get('activate_mode') == UserSettings::ACTIVATE_AUTO;
-            $userActivation = UserSettings::get('activate_mode') == UserSettings::ACTIVATE_USER;
-            $user = Auth::register($data, $automaticActivation);
-            Auth::login($user);
-            $user = User::where('email', '=', $email)->first();
-        }
-
-        $rembUser->user = $user;
-        $rembUser->save();
-        return $rembUser;
+        $rb_user->username = $username;
+        $rb_user->email = $email;
+        $rb_user->ccp = $ccp;
+        $rb_user->npa = $npa;
+        $rb_user->is_confirmed = true;
+        $rb_user->city = $city;
+        $rb_user->address = $address;
+        $rb_user->user = $user;
+        $rb_user->save();
     }
 
 }

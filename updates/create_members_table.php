@@ -20,6 +20,7 @@ class CreateMembersTable extends Migration
             $table->string('city')->nullable();
             $table->string('address')->nullable();
             $table->string('ccp');
+            $table->boolean('is_confirmed')->default(false);
             #$table->integer('count_posts')->index()->default(0);
             #$table->integer('count_topics')->index()->default(0);
             $table->dateTime('last_active_at')->index()->nullable();
