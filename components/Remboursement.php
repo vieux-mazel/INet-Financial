@@ -64,15 +64,16 @@ class Remboursement extends ComponentBase
     {
         $this->categories = Categories::all();
         $this->validationprocess = ValidationProcess::all();
+
         $user = $this->user();
         $this->financialData = RembUser::where('email', '=', $user->email)->first();
         if(is_null($this->financialData)){
             $rb_user = new RembUser;
             $rb_user->username = $user->name;
             $rb_user->email = $user->email;
+            $rb_user->user = User::where('email', '=', $user->email)->first();
             $rb_user->save();
             $this->financialData = RembUser::where('email', '=', $user->email)->first();
-            unset($rb_user);
         }
         if(!$this->financialData->is_confirmed){
             $this->datacomplete = false;

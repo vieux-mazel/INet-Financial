@@ -44,12 +44,12 @@ class Plugin extends PluginBase
                     $model->hasMany['executor'] = ['VM\Financial\Models\ValidationProcess'];
                 });
         User::extend(function($model) {
-            $model->hasOne['payment_member'] = ['VM\Financial\Models\Member'];
+            $model->hasOne['payment_member'] = ['VM\Financial\Models\Member','user_id'];
         });
 
         UsersController::extendFormFields(function($widget, $model, $context) {
             if ($context != 'update') return;
-            if (!Member::getFromUser($model)) return;
+            #if (!Member::getFromUser($model)) return;
 
             $widget->addFields([
                 'payment_member[username]' => [
