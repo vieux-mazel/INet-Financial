@@ -1,6 +1,6 @@
 {% set payments = __SELF__.paymentsModerated %}
 {% set paymentPage = __SELF__.paymentPage %}
-<div class="container" id="default_container">
+<div id="default_container">
     <h2> Liste des payements à modérer </h2>
     <div class="row">
         {%partial __SELF__ ~ '::list_payments' payments=payments status='new' status_type='info' %}

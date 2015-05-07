@@ -129,41 +129,5 @@ class Remboursement extends ComponentBase
         return Redirect::to('payment/'.$currentRemb->slug);
 
     }
-    /**
-     * Check if a user exist (by checking email)
-     * @return Member
-     */
-    public function onUpdate()
-    {
-        $username = post('username');
-        $address = post('address');
-        $npa = post('npa');
-        $city = post('city');
-        $ccp = post('ccp');
-
-        // retrive logined in user's email
-        $user = $this->user();
-        $email = $user->email;
-        // Check if user exist in Remboursement User model
-        $rb_user = RembUser::where('email', '=', $email)->first();
-        $user = User::where('email', '=', $email)->first();
-
-        if(is_null($rb_user)){
-            $rb_user = new RembUser;
-        }
-        $rb_user->username = $username;
-        $rb_user->email = $email;
-        $rb_user->ccp = $ccp;
-        $rb_user->npa = $npa;
-        $rb_user->is_confirmed = true;
-        $rb_user->city = $city;
-        $rb_user->address = $address;
-        $rb_user->user = $user;
-        $rb_user->save();
-        Flash::success('Vos modifications ont étés enregistrées');
-        $this->setVariables();
-        return ['#userdetails_up' => $this->renderPartial('::default')];
-    }
-
 
 }

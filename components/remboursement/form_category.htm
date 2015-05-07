@@ -4,16 +4,16 @@
 
 {% set validationprocess = __SELF__.validationprocess %}
 <div class="form-group">
-    <label for="registerCategory"> Type de remboursement (shéma de validation) </label>
+    <label for="registerCategory"> Concerne : </label>
     <select class="form-control" id="validationprocess" name="validationprocess" required{% if not datacomplete%} disabled {% endif %}>
         <option values="">--Selectionnez--</option>
         {% for process in validationprocess %}
-        <option value="{{process.id}}" name="{{process.id}}">{{process.name}}</option>
+            <option value="{{process.id}}" name="{{process.id}}">{{process.name}}</option>
         {% endfor %}
     </select>
 </div>
 <div class="form-group">
-    <label for="registerCategory"> Catégories </label>
+    <label for="registerCategory"> Catégories : </label>
         <select class="form-control" id="category" name="category" required{% if not datacomplete%} disabled {% endif %}>
         </select>
 </div>

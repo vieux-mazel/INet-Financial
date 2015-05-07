@@ -4,58 +4,58 @@
 {% set status = __SELF__.status %}
 {% set color = __SELF__.statuscolor %}
 {% if exist %}
-    <div class="page-header">
-        <h1>Détails du payement #{{payment.id}} <small> pour {{user.username}}</small></h1>
+<div class="page-header">
+    <h1>Détails du payement #{{payment.id}} <small> pour {{user.username}}</small></h1>
+</div>
+<div class="panel panel-{{color}}">
+    <div class="panel-heading">
+        <h3 class="panel-title"> Payement #{{payment.id}} <span class="pull-right text-right"> {{status}}</h3>
     </div>
-    <div class="panel panel-{{color}}">
-        <div class="panel-heading">
-            <h3 class="panel-title"> Payement #{{payment.id}} <span class="pull-right text-right"> {{status}}</h3>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-6">
+                <h3> Cordonnées du demandeur</h3>
+                {{user.ccp}} <br>
+                {{user.username}} <br>
+                {{user.address}} <br>
+                {{user.npa}} - {{user.city}} <br>
+            </div>
+
+            <div class="col-md-6">
+                <h3> Informations relatives à la note de frais</h3>
+                <b>Processus de validation : </b> {{payment.validation_process.name}} <br>
+                <b>Catégorie :</b> {{payment.category.name}}<br>
+
+                {% for justificatif in payment.justificatifs %}
+                    <a href="{{justificatif.path}}" onclick="return popitup('{{justificatif.path}}')"> <button class="btn btn-success btn-sm">Justificatif</button> </a>
+                {% endfor %}
+            </div>
+
         </div>
-        <div class="panel-body">
+    </div>
+    <div class="panel-footer">
+        <div class="container-fluid">
             <div class="row">
-                <div class="col-md-6">
-                    <h3> Cordonnées du demandeur</h3>
-                    {{user.ccp}} <br>
-                    {{user.username}} <br>
-                    {{user.address}} <br>
-                    {{user.npa}} - {{user.city}} <br>
+                <div class="col-md-10">
+                    {% if can(payment.validation_process.validator.name) %}
+                        {%partial __SELF__ ~ '::moderate_button' status=payment.status payment=payment %}
+                    {% endif %}
                 </div>
-
-                <div class="col-md-6">
-                    <h3> Informations relatives à la note de frais</h3>
-                    <b>Processus de validation : </b> {{payment.validation_process.name}} <br>
-                    <b>Catégorie :</b> {{payment.category.name}}<br>
-
-                    {% for justificatif in payment.justificatifs %}
-                        <a href="{{justificatif.path}}" onclick="return popitup('{{justificatif.path}}')"> <button class="btn btn-success btn-sm">Justificatif</button> </a>
-                    {% endfor %}
-                </div>
-
-            </div>
-        </div>
-        <div class="panel-footer">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-md-10">
-                        {% if can(payment.validation_process.validator.name) %}
-                            {%partial __SELF__ ~ '::moderate_button' status=payment.status payment=payment %}
-                        {% endif %}
-                    </div>
-                    <div class="col-md-2">
-                        Montant {{payment.amount}} CHF
-                    </div>
+                <div class="col-md-2">
+                    Montant {{payment.amount}} CHF
                 </div>
             </div>
         </div>
     </div>
-    <a href='/'>
-        <button type="button" class="btn btn-default" aria-label="Left Align">
-            <span class="icon-chevron-left" aria-hidden="true"> Nouveau payement</span>
-        </button>
-    </a>
+</div>
+<a href='/'>
+    <button type="button" class="btn btn-default" aria-label="Left Align">
+        <span class="icon-chevron-left" aria-hidden="true"> Nouveau payement</span>
+    </button>
+</a>
 
 
 {% else %}
-     <h2> Erreur </h2>
-     Le payment que vous avez demandé n'existe pas !
+ <h2> Erreur </h2>
+ Le payment que vous avez demandé n'existe pas !
 {% endif %}

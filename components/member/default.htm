@@ -1,0 +1,14 @@
+<div class="row" id="userdetails_up">
+    <div class="col-md-12">
+        <h3> Tes cordonnées bancaires : </h3>
+        {% flash %}
+            <div class="alert alert-{{ type == 'error' ? 'danger' : type }}">
+                {{ message }}
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            </div>
+        {% endflash %}
+    </div>
+    <div class="col-md-12">
+        {% partial '@userdetails'%}
+    </div>
+</div>

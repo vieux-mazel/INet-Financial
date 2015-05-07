@@ -2,9 +2,9 @@
 {% set paymentPage = __SELF__.paymentPage %}
 {% set colorDone = __SELF__.colorDone %}
 {% set colorModerated = __SELF__.colorModerated %}
-<div class="container" id="default_container">
+<div id="default_container">
     <h2> Liste des payements à exécuter </h2>
-    <div class="row">
+    <div class="row" >
         {%partial __SELF__ ~ '::list_payments' payments=payments status='moderated' status_type=colorModerated %}
     </div>
 
