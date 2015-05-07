@@ -1,5 +1,6 @@
 {% set financialData = __SELF__.financialData %}
-{{ form_open({ request: 'onUpdate', model: member}) }}
+{{ form_ajax('onUpdate', { model: member }) }}
+
 <h3> Tes cordonnées bancaires</h3>
     <div class="form-group">
         <label for="registerName"> Nom et Prénom</label>
@@ -73,5 +74,4 @@
             value="{{ financialData.ccp }}"required>
     </div>
     <button type="submit" class="btn btn-default">Mettre à jour</button>
-
 {{ form_close() }}

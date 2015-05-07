@@ -5,11 +5,11 @@
 <div class="container" id="default_container">
     <h2> Liste des payements à exécuter </h2>
     <div class="row">
-        {%partial __SELF__ ~ '::list_payments' paymentPage=paymentPage payments=payments status='moderated' status_type=colorModerated %}
+        {%partial __SELF__ ~ '::list_payments' payments=payments status='moderated' status_type=colorModerated %}
     </div>
 
     <h2> Liste des payements terminés</h2>
     <div class="row">
-        {%partial __SELF__ ~ '::list_payments' paymentPage=paymentPage payments=payments status='done' status_type=colorDone %}
+        {%partial __SELF__ ~ '::list_payments' payments=payments status='done' status_type=colorDone %}
     </div>
 </div>

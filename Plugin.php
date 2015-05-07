@@ -1,5 +1,4 @@
 <?php namespace VM\Financial;
-
 use Event;
 use App;
 use Backend;
@@ -49,7 +48,7 @@ class Plugin extends PluginBase
 
         UsersController::extendFormFields(function($widget, $model, $context) {
             if ($context != 'update') return;
-            #if (!Member::getFromUser($model)) return;
+            if (!Member::getFromUser($model)) return;
 
             $widget->addFields([
                 'payment_member[username]' => [

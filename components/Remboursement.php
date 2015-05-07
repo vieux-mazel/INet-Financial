@@ -12,6 +12,7 @@ use Flash;
 use Auth;
 use Redirect;
 use Input;
+use Request;
 class Remboursement extends ComponentBase
 {
 
@@ -51,7 +52,6 @@ class Remboursement extends ComponentBase
     {
         return [];
     }
-
     public function onRun()
     {
         $this->addCss('assets/css/bootstrap.css');
@@ -62,6 +62,7 @@ class Remboursement extends ComponentBase
     }
     public function setVariables()
     {
+        $this->page['url'] = Request::url() ."/"; # Hot fix to be removed has soon it's fixed on octobercms
         $this->categories = Categories::all();
         $this->validationprocess = ValidationProcess::all();
 
@@ -89,16 +90,18 @@ class Remboursement extends ComponentBase
         return Auth::getUser();
     }
 
-    public function onAddRemb()
+    public function onAdd()
     {
         $user = $this->user();
         $email = $user->email;
+        #dump($email);
         // Get post value
         $amount = post('amount');
         $catid = post('category');
         $description = post('description');
         $processid = post('validationprocess');
-
+        echo(post('justificatifs'));
+        echo(Input::file('justificatifs'));
         // Create new Remboursement in database
         $currentRemb = new Rembdata;
         $currentRemb->description = $description;
@@ -125,13 +128,12 @@ class Remboursement extends ComponentBase
         // Save Remboursement
         return Redirect::to('payment/'.$currentRemb->slug);
 
-
     }
     /**
      * Check if a user exist (by checking email)
      * @return Member
      */
-    function onUpdate()
+    public function onUpdate()
     {
         $username = post('username');
         $address = post('address');
@@ -142,7 +144,6 @@ class Remboursement extends ComponentBase
         // retrive logined in user's email
         $user = $this->user();
         $email = $user->email;
-
         // Check if user exist in Remboursement User model
         $rb_user = RembUser::where('email', '=', $email)->first();
         $user = User::where('email', '=', $email)->first();
@@ -159,6 +160,10 @@ class Remboursement extends ComponentBase
         $rb_user->address = $address;
         $rb_user->user = $user;
         $rb_user->save();
+        Flash::success('Vos modifications ont étés enregistrées');
+        $this->setVariables();
+        return ['#userdetails_up' => $this->renderPartial('::default')];
     }
+
 
 }

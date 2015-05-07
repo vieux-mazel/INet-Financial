@@ -1,7 +1,7 @@
 {% set categories = __SELF__.categories %}
 {% set financialData = __SELF__.financialData %}
 {% set datacomplete = __SELF__.datacomplete %}
-{{ form_open({request: 'onAdd' , files: true , id: 'rembform', 'url': url }) }}
+{{ form_ajax('onAdd',{ files: true }) }}
 
     {%partial __SELF__ ~ '::form_category'%}
     <div class="form-group">

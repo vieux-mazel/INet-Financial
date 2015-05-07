@@ -2,6 +2,7 @@
 
 use Cms\Classes\ComponentBase;
 use VM\Financial\Models\Remboursement as Rembdata;
+
 class Moderate extends ComponentBase
 {
     /**
@@ -52,7 +53,7 @@ class Moderate extends ComponentBase
     public function setVariables()
     {
         $this->paymentsModerated = Rembdata::all();
-        $this->paymentPage = $this->property('paymentPage');
+        #$this->paymentPage = $this->property('paymentPage');
         #$this->paymentsModerated->each(function($model) {
         #    $model->justificatifs = $model->justificatifs->output();
         #});

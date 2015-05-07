@@ -63,9 +63,9 @@ class Member extends Model
              $member = new static;
              $member->user = $user;
              $member->username = $generatedUsername;
-             $member->save();
+             #$member->save();
 
-             $user->payment_member = $member;
+             #$user->payment_member = $member;
          }
 
          return $user->payment_member;
